@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.panteleyev.jpackageplugin' version '1.3.1'
+}
+
+group 'org.example'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = '15.0.1'
+    modules = [ 'javafx.controls' ]
+}
+
+// jpackageの入力フォルダ
+def inputDir = "$buildDir/input"
+
+task copyDependencies (type: Copy) {
+    from configurations.runtimeClasspath
+    into inputDir
+}
+
+task copyJar (type: Copy) {
+    from tasks.jar
+    into inputDir
+}
+
+jpackage {
+    dependsOn build
+    dependsOn copyDependencies
+    dependsOn copyJar
+
+    input = inputDir
+    destination = "$buildDir/dist"
+
+    appName = 'JPackage Test'
+    vendor = 'com.example'
+
+    mainJar = tasks.jar.getArchiveFileName().get()
+    mainClass = 'main.Main'
+
+    javaOptions = ['-Dfile.encoding=UTF-8']
+}
