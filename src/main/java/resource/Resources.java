@@ -20,7 +20,7 @@ public final class Resources implements Closeable {
 
     private Resources() {}
 
-    public Path uriOf(String resourceName) {
+    public Path pathOf(String resourceName) {
         var url = Resources.class.getResource(resourceName);
         try {
             return Paths.get(url.toURI());

@@ -1,3 +1,5 @@
+import org.panteleyev.jpackage.ImageType
+
 plugins {
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.9'
@@ -44,4 +46,8 @@ jpackage {
     mainClass = 'main.Main'
 
     javaOptions = ['-Dfile.encoding=UTF-8']
+
+    windows {
+        type = ImageType.APP_IMAGE
+    }
 }
